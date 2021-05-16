@@ -64,14 +64,10 @@ def computeTFIDF(tfBagOfWords, idfs):
     return tfidf
 
 def tfidf_score(text_list, keystr=False): # keystr not used
-    clean_text_list = []
-    for text in text_list:
-        clean_text_list.append( text.replace("\n", " ").lower() )
-
     # find all unique words
     w_set = set()
     bow_list = []
-    for text in clean_text_list:
+    for text in text_list:
         bow = []
         doc = nlp(text)
         sentences = sentence_segment(doc, candidate_pos=['NOUN', 'PROPN', 'DET', 'ADJ', 'ADP', 'VERB', 'NUM', 'ADV', 'PRON', 'INTJ'], lower=True) # list of list of words
@@ -119,26 +115,6 @@ class TextRank4Keyword():
         self.normgraph = None
         self.vocab = None
     
-    def set_stopwords(self, stopwords):  
-        """Set stop words"""
-        for word in STOP_WORDS.union(set(stopwords)):
-            lexeme = nlp.vocab[word]
-            lexeme.is_stop = True
-    
-    def sentence_segment(self, doc, candidate_pos, lower):
-        """Store those words only in cadidate_pos"""
-        sentences = []
-        for sent in doc.sents:
-            selected_words = []
-            for token in sent:
-                # Store words only with cadidate POS tag
-                if token.pos_ in candidate_pos and token.is_stop is False:
-                    if lower is True:
-                        selected_words.append(token.text.lower())
-                    else:
-                        selected_words.append(token.text)
-            sentences.append(selected_words)
-        return sentences
         
     def get_vocab(self, sentences):
         """Get all tokens"""
@@ -201,14 +177,12 @@ class TextRank4Keyword():
                 window_size=4, lower=False, stopwords=list()):
         """Main function to analyze text"""
         
-        # Set stop words
-        self.set_stopwords(stopwords)
         
         # Pare text by spaCy
         doc = nlp(text)
         
         # Filter sentences
-        sentences = self.sentence_segment(doc, candidate_pos, lower) # list of list of words
+        sentences = sentence_segment(doc, candidate_pos, lower) # list of list of words
         
         # Build vocabulary
         self.vocab = self.get_vocab(sentences)
