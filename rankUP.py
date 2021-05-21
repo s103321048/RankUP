@@ -197,11 +197,14 @@ def rankUP(text_list, tfidf_dict_list=None, target_idx=None):
     return rankUP_dict_list
 
 # example
-with open('news_list.pkl', "rb") as f:
-    news_list = pickle.load(f)
+# with open('news_list.pkl', "rb") as f:
+#     news_list = pickle.load(f)
 
-content_list = [news['content'] for news in news_list]
-rankUP_dicts = rankUP(content_list)
+# content_list = [news['content'] for news in news_list]
+# rankUP_dicts = rankUP(content_list)
 
-sorted_rankUP_dicts = [ sort_dict_by_value(rankup_d) for rankup_d in rankUP_dicts]
-print(sorted_rankUP_dicts[0])
+# sorted_rankUP_dicts = [ sort_dict_by_value(rankup_d) for rankup_d in rankUP_dicts]
+# for idx, keyword in enumerate(sorted_rankUP_dicts[0]):
+#     if idx > 5:
+#         break
+#     print("{}:\t{:.3f}".format(keyword, sorted_rankUP_dicts[0][keyword]))

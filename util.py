@@ -36,6 +36,7 @@ def remove_dict_val_less_than_K(input_dict, K=0):
 def sort_dict_by_value(input_dict):
     return dict(sorted(input_dict.items(), key=lambda k: k[1], reverse=True))
 
+##### cal TFIDF #####
 def computeTF(wordDict, bagOfWords):
     tfDict = {}
     bagOfWordsCount = len(bagOfWords)
@@ -102,7 +103,7 @@ def tfidf_dict(text_list, idx):
 
 
 
-
+##### cal TextRank #####
 class TextRank4Keyword():
     """Extract keywords from text"""
     
@@ -153,8 +154,8 @@ class TextRank4Keyword():
         g = np.zeros((vocab_size, vocab_size), dtype='float')
         for word1, word2 in token_pairs:
             i, j = vocab[word1], vocab[word2]
-            g[i][j] = 1
-
+            g[i][j] += 1
+        
         # Get Symmeric matrix
         g = self.symmetrize(g)
         return g
